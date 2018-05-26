@@ -1,11 +1,10 @@
 package ch.khinkali.cryptowatch.kafka.backup.consumer.boundary;
 
-import ch.khinkali.cryptowatch.events.entity.BaseEvent;
-
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import javax.json.JsonObject;
 import java.util.logging.Logger;
 
 @Singleton
@@ -15,7 +14,7 @@ public class DBWriter {
     @Inject
     Logger logger;
 
-    public void consumeEvents(@Observes BaseEvent event) {
-        logger.info(event.getJson().toString());
+    public void consumeEvents(@Observes JsonObject event) {
+        logger.info(event.toString());
     }
 }

@@ -1,7 +1,6 @@
 package ch.khinkali.cryptowatch.kafka.backup.consumer.control;
 
 import ch.khinkali.cryptowatch.events.boundary.EventConsumer;
-import ch.khinkali.cryptowatch.events.entity.BaseEvent;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -11,6 +10,7 @@ import javax.ejb.Startup;
 import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import javax.json.JsonObject;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 @Singleton
 public class CryptowatchEventConsumer {
 
-    private EventConsumer eventConsumer;
+    private EventConsumer<String, JsonObject> eventConsumer;
 
     @Resource
     ManagedExecutorService mes;
@@ -28,13 +28,14 @@ public class CryptowatchEventConsumer {
     Properties kafkaProperties;
 
     @Inject
-    Event<BaseEvent> events;
+    Event<JsonObject> events;
 
     @PostConstruct
     private void init() {
         kafkaProperties.put("group.id", "backup-" + UUID.randomUUID());
+        kafkaProperties.put("value.deserializer", GenericDeserializer.class.getCanonicalName());
 
-        eventConsumer = new EventConsumer(kafkaProperties, ev -> {
+        eventConsumer = new EventConsumer<>(kafkaProperties, ev -> {
             events.fire(ev);
         }, Pattern.compile(".*"));
 
