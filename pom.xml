@@ -41,7 +41,7 @@
     </dependency>
   </dependencies>
   <build>
-    <finalName>kafka.backup</finalName>
+    <finalName>kafka-backup</finalName>
   </build>
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
