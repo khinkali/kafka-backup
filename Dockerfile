@@ -1,4 +1,4 @@
-FROM khinkali/wildfly-postgres:0.0.6
+FROM khinkali/wildfly-postgres:0.0.10
 
 MAINTAINER Robert Brem <brem_robert@hotmail.com>
 
