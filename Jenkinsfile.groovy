@@ -66,7 +66,7 @@ podTemplate(label: 'mypod', containers: [
                 sh "sed -i -e 's/value: \"todo\"/value: \"${env.VERSION}\"/' kubeconfig.yml"
                 container('kubectl') {
                     sh """
-                        kubectl delete deployment kafka-backup-db
+                        kubectl -n test delete deployment kafka-backup-db
                         kubectl apply -f kubeconfig.yml
                        """
                 }
