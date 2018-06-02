@@ -34,6 +34,7 @@ public class CryptowatchEventConsumer {
     private void init() {
         kafkaProperties.put("group.id", "backup-" + UUID.randomUUID());
         kafkaProperties.put("value.deserializer", GenericDeserializer.class.getCanonicalName());
+        kafkaProperties.put("value.serializer", GenericSerializer.class.getCanonicalName());
 
         eventConsumer = new EventConsumer<>(kafkaProperties, ev -> {
             events.fire(ev);

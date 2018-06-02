@@ -5,6 +5,8 @@ import org.apache.kafka.common.serialization.Deserializer;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
 import java.io.ByteArrayInputStream;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -20,10 +22,12 @@ public class GenericDeserializer implements Deserializer<JsonObject> {
     @Override
     public JsonObject deserialize(final String topic, final byte[] data) {
         try (ByteArrayInputStream input = new ByteArrayInputStream(data)) {
-            return Json.createReader(input).readObject();
+            JsonObject event = Json.createReader(input).readObject();
+            return jsonObjectToBuilder(event)
+                    .add("topic", topic)
+                    .build();
         } catch (Exception e) {
             logger.severe("Could not deserialize event: " + e.getMessage());
-            e.printStackTrace();
             throw new SerializationException("Could not deserialize event", e);
         }
     }
@@ -31,6 +35,16 @@ public class GenericDeserializer implements Deserializer<JsonObject> {
     @Override
     public void close() {
         // nothing to do
+    }
+
+    private JsonObjectBuilder jsonObjectToBuilder(JsonObject jo) {
+        JsonObjectBuilder job = Json.createObjectBuilder();
+
+        for (Map.Entry<String, JsonValue> entry : jo.entrySet()) {
+            job.add(entry.getKey(), entry.getValue());
+        }
+
+        return job;
     }
 
 }
