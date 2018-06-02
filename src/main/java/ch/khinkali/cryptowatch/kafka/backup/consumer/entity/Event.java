@@ -27,7 +27,8 @@ public class Event {
 
     public Event(JsonObject event) {
         log.info(event.toString());
-        this.id = event.getString(BaseEvent.JSON_KEYS.ID.getJsonKey());
+        JsonObject data = event.getJsonObject("data");
+        this.id = data.getString(BaseEvent.JSON_KEYS.ID.getJsonKey());
         this.event = event.toString();
     }
 
