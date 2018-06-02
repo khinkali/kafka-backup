@@ -1,12 +1,12 @@
 package ch.khinkali.cryptowatch.kafka.backup.consumer.entity;
 
+import ch.khinkali.cryptowatch.events.entity.BaseEvent;
 import lombok.*;
 
 import javax.json.JsonObject;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -21,7 +21,7 @@ public class Event {
     private String event;
 
     public Event(JsonObject event) {
-        this.id = UUID.randomUUID().toString();
+        this.id = event.getString(BaseEvent.JSON_KEYS.ID.getJsonKey());
         this.event = event.toString();
     }
 
