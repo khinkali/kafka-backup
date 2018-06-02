@@ -12,7 +12,6 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.json.JsonObject;
 import java.util.Properties;
-import java.util.UUID;
 import java.util.regex.Pattern;
 
 @Startup
@@ -32,10 +31,6 @@ public class CryptowatchEventConsumer {
 
     @PostConstruct
     private void init() {
-        kafkaProperties.put("group.id", "backup-" + UUID.randomUUID());
-        kafkaProperties.put("value.deserializer", GenericDeserializer.class.getCanonicalName());
-        kafkaProperties.put("value.serializer", GenericSerializer.class.getCanonicalName());
-
         eventConsumer = new EventConsumer<>(kafkaProperties, ev -> {
             events.fire(ev);
         }, Pattern.compile(".*"));
