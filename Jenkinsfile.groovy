@@ -65,7 +65,10 @@ podTemplate(label: 'mypod', containers: [
                 sh "sed -i -e 's/image: khinkali\\/kafka-backup:todo/image: khinkali\\/kafka-backup:${env.VERSION}/' kubeconfig.yml"
                 sh "sed -i -e 's/value: \"todo\"/value: \"${env.VERSION}\"/' kubeconfig.yml"
                 container('kubectl') {
-                    sh "kubectl apply -f kubeconfig.yml"
+                    sh """
+                        kubectl delete deployment kafka-backup-db
+                        kubectl apply -f kubeconfig.yml
+                       """
                 }
                 container('curl') {
                     checkVersion(env.VERSION, "http://${HOST}:${PORT}/kafka-backup/resources/health", 1, 5)
