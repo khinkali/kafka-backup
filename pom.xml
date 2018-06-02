@@ -27,7 +27,7 @@
     <dependency>
       <groupId>ch.khinkali.cryptowatch</groupId>
       <artifactId>core.events</artifactId>
-      <version>0.0.7</version>
+      <version>0.1.8</version>
     </dependency>
   </dependencies>
   <build>

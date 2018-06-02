@@ -3,6 +3,7 @@ package ch.khinkali.cryptowatch.kafka.backup.consumer.entity;
 import lombok.*;
 
 import javax.json.JsonObject;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.UUID;
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class Event {
     @Id
     private String id;
+    @Column(columnDefinition = "text")
     private String event;
 
     public Event(JsonObject event) {
