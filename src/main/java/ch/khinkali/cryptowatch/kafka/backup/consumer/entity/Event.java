@@ -3,12 +3,10 @@ package ch.khinkali.cryptowatch.kafka.backup.consumer.entity;
 import ch.khinkali.cryptowatch.events.entity.BaseEvent;
 import lombok.*;
 
-import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.logging.Logger;
 
 @Entity
 @Getter
@@ -22,11 +20,7 @@ public class Event {
     @Column(columnDefinition = "text")
     private String event;
 
-    @Inject
-    Logger log;
-
     public Event(JsonObject event) {
-        log.info(event.toString());
         JsonObject data = event.getJsonObject("data");
         this.id = data.getString(BaseEvent.JSON_KEYS.ID.getJsonKey());
         this.event = event.toString();
