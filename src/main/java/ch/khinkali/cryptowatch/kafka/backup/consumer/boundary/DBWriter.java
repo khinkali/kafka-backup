@@ -22,9 +22,7 @@ public class DBWriter {
     EntityManager entityManager;
 
     public void consumeEvents(@Observes JsonObject event) {
-        logger.info(event.toString());
         Event saved = entityManager
                 .merge(new Event(event));
-        logger.info(saved.toString());
     }
 }
